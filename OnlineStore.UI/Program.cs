@@ -11,6 +11,8 @@ namespace OnlineStore.UI
         {
             LoginForm loginForm = new LoginForm();
             loginForm.Login();
+            //ProductList product = new ProductList();
+            //product.productList();
         }
     }
 }

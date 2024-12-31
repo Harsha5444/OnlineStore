@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OnlineStore.DAL;
+using System;
 using System.Data;
 
 namespace OnlineStore.BLL
@@ -6,10 +7,10 @@ namespace OnlineStore.BLL
     public class UserBLL
     {
         private DataTable usersTable;
-
-        public UserBLL(DataTable usersData)
+        UserDAL userDAL = new UserDAL();
+        public UserBLL()
         {
-            usersTable = usersData;
+            usersTable = userDAL.GetUsersTable();
         }
         public bool Login(string username, string password)
         {
@@ -39,9 +40,13 @@ namespace OnlineStore.BLL
             usersTable.Rows.Add(newRow);
             return true; 
         }
-        public DataTable GetUsers()
+        public DataTable GetUsersTable()
         {
             return usersTable;
+        }
+        public void SaveUsers(DataTable usersTable)
+        {
+            userDAL.SaveUsers(usersTable);
         }
     }
 }

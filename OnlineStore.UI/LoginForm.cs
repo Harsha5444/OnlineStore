@@ -14,10 +14,8 @@ namespace OnlineStore.UI
         public void Login()
         {
             Console.WriteLine("Welcome to Online Store!");
-            UserDAL userDAL = new UserDAL();
-            DataTable usersTable = userDAL.GetUsersTable();
-            UserBLL userBLL = new UserBLL(usersTable);
-
+            UserBLL userBLL = new UserBLL();
+            DataTable usersTable = userBLL.GetUsersTable();
             bool isRunning = true;
             while (isRunning)
             {
@@ -71,7 +69,7 @@ namespace OnlineStore.UI
 
                     case "3":
                         Console.WriteLine("Exiting the application. Saving changes...");
-                        userDAL.SaveUsers(usersTable);
+                        userBLL.SaveUsers(usersTable);
                         isRunning = false;
                         break;
                     default:
