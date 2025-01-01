@@ -10,9 +10,17 @@ namespace OnlineStore.UI
         static void Main(string[] args)
         {
             LoginForm loginForm = new LoginForm();
-            loginForm.Login();
-            //ProductList product = new ProductList();
-            //product.productList();
+            loginForm:
+            if (loginForm.Login())
+            {
+                //ProductList product = new ProductList();
+                //product.productList();
+            }
+            else
+            {
+                goto loginForm;
+            }
+            Console.Read();
         }
     }
 }
