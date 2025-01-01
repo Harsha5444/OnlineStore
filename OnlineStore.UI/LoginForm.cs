@@ -7,6 +7,7 @@ namespace OnlineStore.UI
     class LoginForm
     {
         public static string UserName;
+        Cart session = new Cart(UserName);
         public bool Login()
         {
             Console.WriteLine("Welcome to Online Store!");

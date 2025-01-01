@@ -7,7 +7,8 @@ namespace OnlineStore.UI
         public void Menu()
         {
             Console.WriteLine($"What Would You Like To Do?");
-            Console.WriteLine($"1.View Products");
+            Console.WriteLine($"0.View Products");
+            Console.WriteLine($"1.View cart");
             Console.WriteLine($"2.Add Product(s) To Cart");
             Console.WriteLine($"3.CheckOut");
             Console.WriteLine($"4.LogOut");
@@ -15,10 +16,16 @@ namespace OnlineStore.UI
             var choice = Console.ReadLine();
             switch (choice)
             {
-                case "1":
-                    Console.Clear();    
+                case "0":
+                    Console.Clear();
                     ProductList products = new ProductList();
                     products.productList();
+                    Menu();
+                    break;
+                case "1":
+                    Console.Clear();
+                    Cart cartList = new Cart();
+                    cartList.GetCartTable();
                     Menu();
                     break;
                 case "2":
