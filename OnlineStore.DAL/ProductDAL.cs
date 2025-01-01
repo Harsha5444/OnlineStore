@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnlineStore.DAL
 {
@@ -34,7 +30,7 @@ namespace OnlineStore.DAL
         }
         public DataTable GetProductTable()
         {
-            return productTable.Copy(); 
+            return productTable.Copy();
         }
         public void SaveProductTable(DataTable productTable)
         {

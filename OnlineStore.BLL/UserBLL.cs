@@ -1,5 +1,4 @@
 ﻿using OnlineStore.DAL;
-using System;
 using System.Data;
 
 namespace OnlineStore.BLL
@@ -21,7 +20,7 @@ namespace OnlineStore.BLL
                     return true;
                 }
             }
-            return false; 
+            return false;
         }
         public bool Register(string fullname, string username, string password, string mobilenumber)
         {
@@ -38,7 +37,7 @@ namespace OnlineStore.BLL
             newRow["password"] = password;
             newRow["mobilenumber"] = mobilenumber;
             usersTable.Rows.Add(newRow);
-            return true; 
+            return true;
         }
         public DataTable GetUsersTable()
         {

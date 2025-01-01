@@ -20,7 +20,7 @@ namespace OnlineStore.UI
             {
                 foreach (var item in row.ItemArray)
                 {
-                    Console.Write($"{item,-20}"); 
+                    Console.Write($"{item,-20}");
                 }
                 Console.WriteLine();
             }
