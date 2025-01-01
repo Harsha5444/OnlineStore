@@ -22,5 +22,10 @@ namespace OnlineStore.BLL
             cartTable = cartDAL.GetCart();
             return cartTable;
         }
+        public void Savecart(DataTable cartTable)
+        {
+            CartDAL cartDAL = new CartDAL(UserName);
+            cartDAL.SaveCart(cartTable);
+        }
     }
 }

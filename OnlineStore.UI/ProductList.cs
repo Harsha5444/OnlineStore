@@ -6,10 +6,21 @@ namespace OnlineStore.UI
 {
     class ProductList
     {
-        public void productList()
+        private ProductBLL productBLL;
+        public DataTable productTable;
+
+        public ProductList()
         {
-            ProductBLL productBLL = new ProductBLL();
-            DataTable productTable = productBLL.GetProductTable();
+            productBLL = new ProductBLL();
+            productTable = productBLL.GetProductTable();
+        }
+        public void DisplayProductList()
+        {
+            if (productTable == null || productTable.Rows.Count == 0)
+            {
+                Console.WriteLine("No products available.");
+                return;
+            }
             foreach (DataColumn column in productTable.Columns)
             {
                 Console.Write($"{column.ColumnName,-20}");

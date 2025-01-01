@@ -38,9 +38,22 @@ namespace OnlineStore.DAL
         {
             return cartTable.Copy();
         }
-        public bool SaveCart(DataTable cartTable)
+        public void SaveCart(DataTable cartTable)
         {
-            return true;
+            string query = "select * from cart";
+            using (SqlConnection conn = GetConnection())
+            {
+                try
+                {
+                    SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                    SqlCommandBuilder cb = new SqlCommandBuilder(da);
+                    da.Update(cartTable);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error loading users: " + ex.Message);
+                }
+            }
         }
     }
 }

@@ -6,10 +6,9 @@ namespace OnlineStore.UI
 {
     class LoginForm
     {
-        public static string UserName;
-        Cart session = new Cart(UserName);
         public bool Login()
         {
+            Cart session = new Cart(Session.UserName);
             Console.WriteLine("Welcome to Online Store!");
             UserBLL userBLL = new UserBLL();
             DataTable usersTable = userBLL.GetUsersTable();
@@ -29,7 +28,7 @@ namespace OnlineStore.UI
                     if (userBLL.Login(username, password))
                     {
                         Console.Clear();
-                        UserName = username;
+                        Session.UserName = username;
                         Console.WriteLine("Login successful! Welcome, " + username + ".\n");
                         return true;
                     }
@@ -81,7 +80,7 @@ namespace OnlineStore.UI
                     if (userBLL.Register(fullname, newUsername, newPassword, mobileNumber))
                     {
                         Console.Clear();
-                        UserName = newUsername;
+                        Session.UserName = newUsername;
                         Console.WriteLine("Registration successful!\n");
                         userBLL.SaveUsers(usersTable);
                         return true;

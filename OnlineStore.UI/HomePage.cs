@@ -19,7 +19,7 @@ namespace OnlineStore.UI
                 case "0":
                     Console.Clear();
                     ProductList products = new ProductList();
-                    products.productList();
+                    products.DisplayProductList();
                     Menu();
                     break;
                 case "1":
@@ -29,12 +29,17 @@ namespace OnlineStore.UI
                     Menu();
                     break;
                 case "2":
+                    Console.Clear();
+                    Cart cart = new Cart();
+                    cart.AddToCart();
+                    Menu();
                     break;
                 case "3":
                     break;
                 case "4":
                     break;
                 default:
+                    Console.Clear();
                     Console.WriteLine($"Please Enter a Valid Choice!");
                     Menu();
                     break;
