@@ -15,6 +15,7 @@ namespace OnlineStore.UI
             Console.WriteLine("2. Register");
             Console.Write("Choose an option: ");
             string choice = Console.ReadLine();
+
             switch (choice)
             {
                 case "1":
@@ -22,6 +23,7 @@ namespace OnlineStore.UI
                     string username = Console.ReadLine();
                     Console.Write("Enter password: ");
                     string password = Console.ReadLine();
+
                     if (userBLL.Login(username, password))
                     {
                         Console.Clear();
@@ -34,15 +36,45 @@ namespace OnlineStore.UI
                         Console.WriteLine("Login failed! Invalid username or password.\nPlease Try Again..!\n");
                         return false;
                     }
+
                 case "2":
-                    Console.Write("\nEnter full name: ");
-                    string fullname = Console.ReadLine();
-                    Console.Write("Enter username: ");
-                    string newUsername = Console.ReadLine();
-                    Console.Write("Enter password: ");
-                    string newPassword = Console.ReadLine();
-                    Console.Write("Enter mobile number: ");
-                    string mobileNumber = Console.ReadLine();
+                    string fullname, newUsername, newPassword, mobileNumber;
+                    do
+                    {
+                        Console.Write("\nEnter full name: ");
+                        fullname = Console.ReadLine();
+                        if (string.IsNullOrWhiteSpace(fullname))
+                        {
+                            Console.WriteLine("Full name cannot be empty. Please try again.");
+                        }
+                    } while (string.IsNullOrWhiteSpace(fullname));
+                    do
+                    {
+                        Console.Write("Enter username: ");
+                        newUsername = Console.ReadLine();
+                        if (string.IsNullOrWhiteSpace(newUsername))
+                        {
+                            Console.WriteLine("Username cannot be empty. Please try again.");
+                        }
+                    } while (string.IsNullOrWhiteSpace(newUsername));
+                    do
+                    {
+                        Console.Write("Enter password: ");
+                        newPassword = Console.ReadLine();
+                        if (string.IsNullOrWhiteSpace(newPassword))
+                        {
+                            Console.WriteLine("Password cannot be empty. Please try again.");
+                        }
+                    } while (string.IsNullOrWhiteSpace(newPassword));
+                    do
+                    {
+                        Console.Write("Enter mobile number: ");
+                        mobileNumber = Console.ReadLine();
+                        if (string.IsNullOrWhiteSpace(mobileNumber))
+                        {
+                            Console.WriteLine("Mobile number cannot be empty. Please try again.");
+                        }
+                    } while (string.IsNullOrWhiteSpace(mobileNumber));
                     if (userBLL.Register(fullname, newUsername, newPassword, mobileNumber))
                     {
                         Console.Clear();
@@ -53,7 +85,7 @@ namespace OnlineStore.UI
                     else
                     {
                         Console.Clear();
-                        Console.WriteLine("Registration failed! Username already exists.\nPlease Try with a different username\n");
+                        Console.WriteLine("Registration failed! Username already exists.\nPlease try with a different username.\n");
                         return false;
                     }
                 default:
