@@ -16,7 +16,6 @@ namespace OnlineStore.UI
             cartTable = cartBLL.GetCartTable();
         }
 
-        // User-defined constructor
         public Cart(ProductList productList)
         {
             this.productList = productList;
