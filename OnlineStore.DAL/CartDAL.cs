@@ -1,26 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OnlineStore.DAL
 {
     public class CartDAL : ConnectionDAL
     {
         private DataTable cartTable;
-        private string UserName;
-        public CartDAL(string userName)
+        public CartDAL()
         {
-            UserName = userName;
             LoadCart();
         }
         private void LoadCart()
         {
             cartTable = new DataTable();
-            String query = $"Select * from Cart where username = '{UserName}'";
+            String query = $"Select * from Cart";
             using (SqlConnection con = GetConnection())
             {
                 try
@@ -28,13 +22,13 @@ namespace OnlineStore.DAL
                     SqlDataAdapter da = new SqlDataAdapter(query, con);
                     da.Fill(cartTable);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine("Error loading users: " + ex.Message);
                 }
             }
         }
-        public DataTable GetCart()
+        public DataTable GetCartTable()
         {
             return cartTable.Copy();
         }

@@ -1,30 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using OnlineStore.DAL;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OnlineStore.DAL;
 
 namespace OnlineStore.BLL
 {
     public class CartBLL
     {
-        private string UserName;
-        DataTable cartTable;
-        public CartBLL(string userName)
+        private DataTable cartTable;
+        CartDAL cartDAL = new CartDAL();
+
+        public CartBLL()
         {
-            UserName = userName;
+            cartTable = cartDAL.GetCartTable();
         }
         public DataTable GetCartTable()
         {
-            CartDAL cartDAL = new CartDAL(UserName);
-            cartTable = cartDAL.GetCart();
             return cartTable;
         }
         public void Savecart(DataTable cartTable)
         {
-            CartDAL cartDAL = new CartDAL(UserName);
             cartDAL.SaveCart(cartTable);
         }
     }

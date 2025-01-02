@@ -4,6 +4,20 @@ namespace OnlineStore.UI
 {
     class HomePage
     {
+        private ProductList productTable = new ProductList(); // Shared ProductList instance
+        private Cart cartTable;
+
+        public HomePage()
+        {
+            cartTable = new Cart(productTable); // Use the shared ProductList
+        }
+
+        public HomePage(string userName)
+        {
+            cartTable = new Cart(productTable); // Shared ProductList
+            cartTable.UserName = userName;      // Additional customization
+        }
+
         public void Menu()
         {
             Console.WriteLine($"What Would You Like To Do?");
@@ -18,20 +32,18 @@ namespace OnlineStore.UI
             {
                 case "0":
                     Console.Clear();
-                    ProductList products = new ProductList();
-                    products.DisplayProductList();
+                    productTable.DisplayProductList();
                     Menu();
                     break;
                 case "1":
                     Console.Clear();
-                    Cart cartList = new Cart();
-                    cartList.GetCartTable();
+                    cartTable.DisplayCartTable();
                     Menu();
                     break;
                 case "2":
                     Console.Clear();
-                    Cart cart = new Cart();
-                    cart.AddToCart();
+                    productTable.DisplayProductList();
+                    cartTable.AddToCart();
                     Menu();
                     break;
                 case "3":

@@ -12,8 +12,6 @@ namespace OnlineStore.UI
             {
                 HomePage homePage = new HomePage();
                 homePage.Menu();
-                //ProductList product = new ProductList();
-                //product.productList();
             }
             else
             {

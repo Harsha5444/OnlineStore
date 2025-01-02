@@ -6,12 +6,12 @@ namespace OnlineStore.UI
 {
     class LoginForm
     {
+        private UserBLL userBLL = new UserBLL();
+        private DataTable usersTable;
         public bool Login()
         {
-            Cart session = new Cart(Session.UserName);
-            Console.WriteLine("Welcome to Online Store!");
-            UserBLL userBLL = new UserBLL();
-            DataTable usersTable = userBLL.GetUsersTable();
+            usersTable = userBLL.GetUsersTable();
+            Console.WriteLine("Welcome to Online Store!");            
             Console.WriteLine("\n1. Login");
             Console.WriteLine("2. Register");
             Console.Write("Choose an option: ");
@@ -25,7 +25,7 @@ namespace OnlineStore.UI
                     Console.Write("Enter password: ");
                     string password = Console.ReadLine();
 
-                    if (userBLL.Login(username, password))
+                    if (Login(username, password))
                     {
                         Console.Clear();
                         Session.UserName = username;
@@ -77,7 +77,7 @@ namespace OnlineStore.UI
                             Console.WriteLine("Mobile number cannot be empty. Please try again.");
                         }
                     } while (string.IsNullOrWhiteSpace(mobileNumber));
-                    if (userBLL.Register(fullname, newUsername, newPassword, mobileNumber))
+                    if (Register(fullname, newUsername, newPassword, mobileNumber))
                     {
                         Console.Clear();
                         Session.UserName = newUsername;
@@ -96,6 +96,34 @@ namespace OnlineStore.UI
                     Console.WriteLine("Invalid option. Please try again.\n");
                     return false;
             }
+        }
+        public bool Login(string username, string password)
+        {
+            foreach (DataRow row in usersTable.Rows)
+            {
+                if (row["username"].ToString() == username && row["password"].ToString() == password)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool Register(string fullname, string username, string password, string mobilenumber)
+        {
+            foreach (DataRow row in usersTable.Rows)
+            {
+                if (row["username"].ToString() == username)
+                {
+                    return false;
+                }
+            }
+            DataRow newRow = usersTable.NewRow();
+            newRow["fullname"] = fullname;
+            newRow["username"] = username;
+            newRow["password"] = password;
+            newRow["mobilenumber"] = mobilenumber;
+            usersTable.Rows.Add(newRow);
+            return true;
         }
     }
 }

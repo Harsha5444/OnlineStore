@@ -37,5 +37,9 @@ namespace OnlineStore.UI
             }
             Console.WriteLine(new string('-', productTable.Columns.Count * 20));
         }
+        public void UpdateProducts(DataTable producttable)
+        {
+            productTable = producttable;
+        }
     }
 }
