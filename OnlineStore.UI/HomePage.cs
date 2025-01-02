@@ -4,25 +4,25 @@ namespace OnlineStore.UI
 {
     class HomePage
     {
-        private ProductList productTable = new ProductList(); // Shared ProductList instance
+        private ProductList productTable = new ProductList(); 
         private Cart cartTable;
 
         public HomePage()
         {
-            cartTable = new Cart(productTable); // Use the shared ProductList
+            cartTable = new Cart(productTable); 
         }
 
         public HomePage(string userName)
         {
-            cartTable = new Cart(productTable); // Shared ProductList
-            cartTable.UserName = userName;      // Additional customization
+            cartTable = new Cart(productTable); 
+            cartTable.UserName = userName;     
         }
 
         public void Menu()
         {
             Console.WriteLine($"What Would You Like To Do?");
             Console.WriteLine($"0.View Products");
-            Console.WriteLine($"1.View cart");
+            Console.WriteLine($"1.View Cart");
             Console.WriteLine($"2.Add Product(s) To Cart");
             Console.WriteLine($"3.CheckOut");
             Console.WriteLine($"4.LogOut");
@@ -47,8 +47,12 @@ namespace OnlineStore.UI
                     Menu();
                     break;
                 case "3":
+                    Console.Clear();
+                    cartTable.Checkout();
+                    Menu();
                     break;
                 case "4":
+                    Console.WriteLine("Logging out...");
                     break;
                 default:
                     Console.Clear();
@@ -57,5 +61,6 @@ namespace OnlineStore.UI
                     break;
             }
         }
+
     }
 }

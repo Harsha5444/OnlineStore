@@ -8,20 +8,18 @@ namespace OnlineStore.UI
     {
         public string UserName;
         public DataTable cartTable;
-        private ProductList productList; // Reference to shared ProductList instance
+        private ProductList productList;
         CartBLL cartBLL = new CartBLL();
-
-        // Default constructor
         public Cart()
         {
-            productList = new ProductList(); // Create a new ProductList if not provided
+            productList = new ProductList();
             cartTable = cartBLL.GetCartTable();
         }
 
         // User-defined constructor
         public Cart(ProductList productList)
         {
-            this.productList = productList; // Use the provided ProductList instance
+            this.productList = productList;
             cartTable = cartBLL.GetCartTable();
         }
 
@@ -84,5 +82,28 @@ namespace OnlineStore.UI
             productList.UpdateProducts(productTable);
             Console.WriteLine("Product added to cart successfully.");
         }
+        public void Checkout()
+        {
+            decimal totalPrice = 0;
+
+            foreach (DataRow row in cartTable.Rows)
+            {
+                totalPrice += Convert.ToDecimal(row["FinalPrice"]);
+            }
+
+            Console.WriteLine($"Total amount to pay: {totalPrice:C2}");
+            Console.Write("Proceed to checkout? (Y/N): ");
+            string proceed = Console.ReadLine();
+            if (proceed.ToUpper() == "Y")
+            {
+                Console.WriteLine("Checkout successful! Thank you for your purchase.");
+                cartTable.Rows.Clear();
+            }
+            else
+            {
+                Console.WriteLine("Checkout canceled.");
+            }
+        }
+
     }
 }
