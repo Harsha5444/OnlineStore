@@ -42,14 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CartDAL.cs" />
-    <Compile Include="ConnectionDAL.cs" />
-    <Compile Include="ProductDAL.cs" />
-    <Compile Include="UserDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShoppingDAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Onlinestore.Models\Onlinestore.Models.csproj">
+      <Project>{6fd9c4b6-8859-4175-9de6-857a6dc2ea98}</Project>
+      <Name>Onlinestore.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

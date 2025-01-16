@@ -1,14 +1,14 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{90714244-E366-4124-B213-E8C4B3CF7620}</ProjectGuid>
+    <ProjectGuid>{6FD9C4B6-8859-4175-9DE6-857A6DC2EA98}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OnlineStore.BLL</RootNamespace>
-    <AssemblyName>OnlineStore.BLL</AssemblyName>
+    <RootNamespace>Onlinestore.Models</RootNamespace>
+    <AssemblyName>Onlinestore.Models</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,21 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cart.cs" />
+    <Compile Include="Orders.cs" />
+    <Compile Include="Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ShoppingBLL.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\OnlineStore.DAL\OnlineStore.DAL.csproj">
-      <Project>{c8ae8a56-75aa-4d22-9c08-18de543137e9}</Project>
-      <Name>OnlineStore.DAL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Onlinestore.Models\Onlinestore.Models.csproj">
-      <Project>{6fd9c4b6-8859-4175-9de6-857a6dc2ea98}</Project>
-      <Name>Onlinestore.Models</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
+    <Compile Include="User.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
