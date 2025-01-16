@@ -18,7 +18,7 @@ namespace OnlineStore.DAL
             };
             try
             {
-                using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["MiniProjectDB"].ConnectionString))
+                using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ChoiceCon"].ConnectionString))
                 {
                     foreach (var (query, tableName) in queries)
                     {
@@ -34,38 +34,6 @@ namespace OnlineStore.DAL
                 Console.WriteLine($"An error occurred: {ex.Message}");
             }
             return ds;
-        }
-        public void UpdateUser(DataSet ds)
-        {
-            using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["MiniProjectDB"].ConnectionString))
-            {
-                using (var da = new SqlDataAdapter("SELECT * FROM Users", conn))
-                {
-                    var commandBuilder = new SqlCommandBuilder(da);
-                    da.Update(ds, "Users");
-                }
-            }
-        }
-        public void UpdateDB(DataSet ds)
-        {
-            try
-            {
-                using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["MiniProjectDB"].ConnectionString))
-                {
-                    foreach (DataTable table in ds.Tables)
-                    {
-                        using (var da = new SqlDataAdapter($"SELECT * FROM {table.TableName}", conn))
-                        {
-                            var commandBuilder = new SqlCommandBuilder(da);
-                            da.Update(ds, table.TableName);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred while updating the database: {ex.Message}");
-            }
         }
     }
 }
