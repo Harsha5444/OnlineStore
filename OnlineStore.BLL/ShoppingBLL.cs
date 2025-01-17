@@ -3,6 +3,7 @@ using OnlineStore.DAL;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 
 namespace OnlineStore.BLL
 {
@@ -14,6 +15,40 @@ namespace OnlineStore.BLL
         {
             DAL = new ShoppingDAL();
             ds = DAL.GetDataSet();
+        }
+        public bool LoginVerify(string username, string password)
+        {
+            DataTable usersTable = ds.Tables["Users"];
+            var user = usersTable.AsEnumerable()
+                .FirstOrDefault(row => row.Field<string>("Username") == username && row.Field<string>("Password") == password);
+            return user != null;
+        }
+        public bool RegisterUser(string username, string fullname, string password, string mobilenumber)
+        {
+            try
+            {
+                DataTable usersTable = ds.Tables["Users"];
+                DataRow newUserRow = usersTable.NewRow();
+                newUserRow["Username"] = username;
+                newUserRow["FullName"] = fullname;
+                newUserRow["Password"] = password;
+                newUserRow["MobileNumber"] = mobilenumber;
+                usersTable.Rows.Add(newUserRow);
+                bool isUserAdded = DAL.AddNewUser(ds);
+                if (isUserAdded)
+                {                    
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error registering user: {ex.Message}");
+                return false;
+            }
         }
         public List<User> ConvertDataTableToUserList(DataTable dataTable)
         {

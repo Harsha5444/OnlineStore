@@ -35,5 +35,26 @@ namespace OnlineStore.DAL
             }
             return ds;
         }
+        public bool AddNewUser(DataSet ds)
+        {
+            DataTable usersTable = ds.Tables["Users"];
+            using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ChoiceCon"].ConnectionString))
+            {
+                using (var da = new SqlDataAdapter("SELECT * FROM Users", conn))
+                {
+                    var commandBuilder = new SqlCommandBuilder(da);
+                    try
+                    {
+                        da.Update(usersTable);
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error adding new user: {ex.Message}");
+                        return false;
+                    }
+                }
+            }
+        }
     }
 }
