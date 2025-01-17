@@ -10,12 +10,16 @@ namespace OnlineStore.BLL
     public class ShoppingBLL
     {
         private DataSet ds;
+        private List<Cart> cart = new List<Cart>();
         private ShoppingDAL DAL;
         public ShoppingBLL()
         {
             DAL = new ShoppingDAL();
             ds = DAL.GetDataSet();
         }
+
+        /*--------------------------Login Verify------------------------------------*/
+
         public bool LoginVerify(string username, string password)
         {
             DataTable usersTable = ds.Tables["Users"];
@@ -23,6 +27,9 @@ namespace OnlineStore.BLL
                 .FirstOrDefault(row => row.Field<string>("Username") == username && row.Field<string>("Password") == password);
             return user != null;
         }
+
+        /*--------------------------Register User------------------------------------*/
+
         public bool RegisterUser(string username, string fullname, string password, string mobilenumber)
         {
             try
@@ -50,6 +57,40 @@ namespace OnlineStore.BLL
                 return false;
             }
         }
+
+        /*--------------------------Add To Cart------------------------------------*/
+
+        public bool AddToCart(int productId, int quantity, string username)
+        {
+            var pRow = ds.Tables["Products"].AsEnumerable().FirstOrDefault(p => p.Field<int>("ProductId") == productId);
+            if (pRow == null)
+                return false;
+            int availableQuantity = pRow.Field<int>("QuantityAvailable");
+            if (availableQuantity <= 0 || quantity <= 0 || quantity > availableQuantity)
+                return false;
+            string productName = pRow.Field<string>("ProductName");
+            int pricePerUnit = pRow.Field<int>("Price");
+            var existingCartItem = cart.FirstOrDefault(c => c.ProductName == productName && c.Username == username);
+            if (existingCartItem != null)
+            {
+                existingCartItem.Quantity += quantity;
+                existingCartItem.FinalPrice = existingCartItem.Quantity * pricePerUnit;
+            }
+            else
+            {
+                Cart cartItem = new Cart
+                {
+                    ProductName = productName,
+                    Username = username,
+                    Quantity = quantity,
+                    FinalPrice = quantity * pricePerUnit
+                };
+                cart.Add(cartItem);
+            }
+            pRow.SetField("QuantityAvailable", availableQuantity - quantity);
+            return true;
+        }
+
         public List<User> ConvertDataTableToUserList(DataTable dataTable)
         {
             var userList = new List<User>();
@@ -117,7 +158,7 @@ namespace OnlineStore.BLL
         }
         public List<Cart> GetCart()
         {            
-            return new List<Cart>();
+            return cart;
         }
         public List<Orders> GetOrders()
         {

@@ -11,7 +11,7 @@ namespace OnlineStore.UI
             Console.Clear();
             if (list == null || list.Count == 0)
             {
-                Console.WriteLine($"No data available in {tableName}.");
+                Console.WriteLine($"No data available in {tableName}.\n");
                 return;
             }
             Console.WriteLine($"--- {tableName.ToUpper()} ---");

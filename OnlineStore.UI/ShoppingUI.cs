@@ -6,27 +6,37 @@ using System.Collections.Generic;
 
 namespace OnlineStore.UI
 {
-    internal class ShoppingUI
+    public class ShoppingUI
     {       
         static void Main(string[] args)
         {
+            ShoppingUI UI = new ShoppingUI();
             ShoppingBLL BLL = new ShoppingBLL();
             Console.WriteLine("Welcome to Online Store!");
             Console.WriteLine("1. Login");
             Console.WriteLine("2. Register");
             Console.Write("Please choose an option: ");
             string choice = Console.ReadLine();
+
+            /*----------------------------Login-------------------------*/
             if (choice == "1")
             {
                 Console.Write("Enter Username: ");
                 string username = Console.ReadLine();
                 Console.Write("Enter Password: ");
                 string password = Console.ReadLine();
-                if(BLL.LoginVerify(username, password))
+                if (BLL.LoginVerify(username, password))
+                {
                     Console.WriteLine($"Login Successful, Welcome '{username}'\n");
+                    Session.Username = username;
+                    UI.Menu(BLL);
+                }
                 else
                     Console.WriteLine($"No credentials found for user '{username}'. Please check your username or password.");
             }
+
+            /*----------------------------Register-------------------------*/
+            
             else if (choice == "2")
             {
                 List<User> users = BLL.GetUsers();
@@ -48,8 +58,12 @@ namespace OnlineStore.UI
                 string password = Console.ReadLine();
                 Console.Write("Enter Mobile Number: ");
                 string mobileNumber = Console.ReadLine();
-                if(BLL.RegisterUser(username, fullName, password, mobileNumber))
+                if (BLL.RegisterUser(username, fullName, password, mobileNumber))
+                {
                     Console.WriteLine($"User {username}, registered successfully.");
+                    Session.Username = username;
+                    UI.Menu(BLL);
+                }
                 else
                     Console.WriteLine("Failed to register user.");
             }
@@ -58,6 +72,72 @@ namespace OnlineStore.UI
                 Console.WriteLine("Invalid option selected.");
             }
             Console.ReadKey();
+        }
+
+        /*----------------------------------Menu---------------------------------------*/
+
+        public void Menu(ShoppingBLL BLL)
+        {
+            Console.WriteLine("********** Welcome to the Home Page **********");
+        start:
+            Console.WriteLine("Please choose an option from the menu below:");
+            Console.WriteLine("1. View Products");
+            Console.WriteLine("2. Add to Cart");
+            Console.WriteLine("3. View Cart");
+            Console.WriteLine("4. Checkout");
+            Console.WriteLine("5. Logout");
+            Console.Write("\nSelect an option: ");
+            string choice = Console.ReadLine();
+            switch (choice)
+            {
+                case "1":
+                    Display.DisplayList(BLL.GetProducts(),"Products");
+                    goto start;
+                case "2":
+                    AddToCart(BLL);
+                    goto start;
+                case "3":
+                    Display.DisplayList(BLL.GetCart(), "Cart");
+                    goto start;
+                case "4":
+                    //Checkout(products, orders, cart, BLL, cartProducts);
+                    break;
+                case "5":
+                    return;
+                default:
+                    Console.Clear();
+                    Console.WriteLine("Invalid choice. Please try again.\n");
+                    break;
+            }
+        }
+        public void AddToCart(ShoppingBLL BLL)
+        {
+            Display.DisplayList(BLL.GetProducts(), "Products");
+            Console.WriteLine("\n*** Add to Cart ***");
+            Console.WriteLine("Enter the Product ID you want to add to your cart:");
+            if (int.TryParse(Console.ReadLine(), out int productId))
+            {
+                Console.WriteLine("Enter the quantity:");
+                if (int.TryParse(Console.ReadLine(), out int quantity))
+                {
+                    if (BLL.AddToCart(productId, quantity, Session.Username))
+                    {
+                        Console.WriteLine("Product added to cart successfully!\n");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Failed to add product to cart. Please check the product ID and quantity.\n");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid quantity. Please enter a valid number.\n");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid product ID. Please enter a valid number.\n");
+            }
         }
     }
 }
