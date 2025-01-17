@@ -43,7 +43,7 @@ namespace OnlineStore.BLL
                 usersTable.Rows.Add(newUserRow);
                 bool isUserAdded = DAL.AddNewUser(ds);
                 if (isUserAdded)
-                {                    
+                {
                     return true;
                 }
                 else
@@ -89,6 +89,30 @@ namespace OnlineStore.BLL
             }
             pRow.SetField("QuantityAvailable", availableQuantity - quantity);
             return true;
+        }
+
+        /*--------------------------Checkout------------------------------------*/
+
+        public (decimal totalcost, DateTime OrderDate, string OrderDetails) Checkout(string username)
+        {
+            List<Cart> cart = GetCart();
+            decimal totalcost = cart.Sum(c => c.FinalPrice);
+            DateTime orderDate = DateTime.Now;
+            var orderDetailsList = cart.Select(cartRow =>
+            {
+                string productname = cartRow.ProductName;
+                int quantity = cartRow.Quantity;
+                return $"{productname} x {quantity}";
+            }).ToList();
+            string orderDetails = string.Join(", ", orderDetailsList);
+            DataRow orderRow = ds.Tables["Orders"].NewRow();
+            orderRow["Username"] = username;
+            orderRow["TotalCost"] = totalcost;
+            orderRow["OrderDate"] = orderDate;
+            orderRow["OrderDetails"] = orderDetails;
+            ds.Tables["Orders"].Rows.Add(orderRow);
+            DAL.UpdateDB(ds);
+            return (totalcost, orderDate, orderDetails);
         }
 
         public List<User> ConvertDataTableToUserList(DataTable dataTable)
@@ -157,7 +181,7 @@ namespace OnlineStore.BLL
             return new List<Product>();
         }
         public List<Cart> GetCart()
-        {            
+        {
             return cart;
         }
         public List<Orders> GetOrders()

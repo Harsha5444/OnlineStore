@@ -1,13 +1,13 @@
 ﻿using Onlinestore.Models;
 using OnlineStore.BLL;
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OnlineStore.UI
 {
     public class ShoppingUI
-    {       
+    {
         static void Main(string[] args)
         {
             ShoppingUI UI = new ShoppingUI();
@@ -36,7 +36,7 @@ namespace OnlineStore.UI
             }
 
             /*----------------------------Register-------------------------*/
-            
+
             else if (choice == "2")
             {
                 List<User> users = BLL.GetUsers();
@@ -91,7 +91,7 @@ namespace OnlineStore.UI
             switch (choice)
             {
                 case "1":
-                    Display.DisplayList(BLL.GetProducts(),"Products");
+                    Display.DisplayList(BLL.GetProducts(), "Products");
                     goto start;
                 case "2":
                     AddToCart(BLL);
@@ -100,7 +100,7 @@ namespace OnlineStore.UI
                     Display.DisplayList(BLL.GetCart(), "Cart");
                     goto start;
                 case "4":
-                    //Checkout(products, orders, cart, BLL, cartProducts);
+                    Checkout(BLL);
                     break;
                 case "5":
                     return;
@@ -137,6 +137,25 @@ namespace OnlineStore.UI
             else
             {
                 Console.WriteLine("Invalid product ID. Please enter a valid number.\n");
+            }
+        }
+        public void Checkout(ShoppingBLL BLL)
+        {
+            if (BLL.GetCart() == null || !BLL.GetCart().Any())
+            {
+                Console.WriteLine("Your cart is empty. Cannot proceed with checkout.");
+                return;
+            }
+            var (totalcost, orderDate, orderDetails) = BLL.Checkout(Session.Username);
+            if (orderDetails != null)
+            {
+                Console.WriteLine("********** Order Confirmation **********");
+                Console.WriteLine($"Order placed successfully by {Session.Username}.");
+                Console.WriteLine($"Total Cost: {totalcost}");
+                Console.WriteLine($"Order Date: {orderDate}");
+                Console.WriteLine($"Order Details: {orderDetails}");
+                Console.WriteLine("\nPress any key to return to the homepage.");
+                Console.ReadKey();
             }
         }
     }

@@ -7,6 +7,7 @@ namespace OnlineStore.DAL
 {
     public class ShoppingDAL
     {
+
         public DataSet GetDataSet()
         {
             var ds = new DataSet("DataBase");
@@ -54,6 +55,27 @@ namespace OnlineStore.DAL
                         return false;
                     }
                 }
+            }
+        }
+        public void UpdateDB(DataSet ds)
+        {
+            try
+            {
+                using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ChoiceCon"].ConnectionString))
+                {
+                    foreach (DataTable table in ds.Tables)
+                    {
+                        using (var da = new SqlDataAdapter($"SELECT * FROM {table.TableName}", conn))
+                        {
+                            var commandBuilder = new SqlCommandBuilder(da);
+                            da.Update(ds, table.TableName);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while updating the database: {ex.Message}");
             }
         }
     }
