@@ -184,13 +184,5 @@ namespace OnlineStore.BLL
         {
             return cart;
         }
-        public List<Orders> GetOrders()
-        {
-            if (ds.Tables["Orders"] != null)
-            {
-                return ConvertDataTableToOrderList(ds.Tables["Orders"]);
-            }
-            return new List<Orders>();
-        }
     }
 }
