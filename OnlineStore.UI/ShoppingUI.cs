@@ -128,6 +128,7 @@ namespace OnlineStore.UI
                     goto start;
                 case "4":
                     Checkout(BLL);
+                    Console.Clear();
                     goto start;
                 case "5":
                     return;
@@ -155,6 +156,7 @@ namespace OnlineStore.UI
                     }
                     else
                     {
+                        Console.Clear();
                         Console.WriteLine("Failed to add product to cart. Please check the product ID and quantity.\n");
                     }
                 }
@@ -179,6 +181,8 @@ namespace OnlineStore.UI
             var (totalcost, orderDate, orderDetails) = BLL.Checkout(Session.Username);
             if (orderDetails != null)
             {
+                DisplayPaymentGateway();
+                Console.Clear();
                 Console.WriteLine("********** Order Confirmation **********");
                 Console.WriteLine($"Order placed successfully by {Session.Username}.");
                 Console.WriteLine($"Total Cost: {totalcost}");
@@ -187,6 +191,32 @@ namespace OnlineStore.UI
                 Console.WriteLine("\nPress any key to return to the homepage.");
                 Console.ReadKey();
             }
+        }
+        public void DisplayPaymentGateway()
+        {
+            Console.Clear();
+            Console.WriteLine("********** Payment Methods **********");
+            Console.WriteLine("1. Credit/Debit Card");
+            Console.WriteLine("2. Net Banking");
+            Console.WriteLine("3. UPI");
+            Console.WriteLine("4. Cash on Delivery");
+            Console.Write("Select a payment method: ");
+            string paymentMethod = Console.ReadLine();
+
+            Console.Clear();
+            Console.WriteLine("********** Payment Gateway **********");
+            Console.WriteLine("Redirecting to the payment gateway...");
+            System.Threading.Thread.Sleep(3000); // Wait for 3 seconds
+            Console.WriteLine("Processing payment...");
+            for (int i = 0; i < 5; i++) 
+            {
+                Console.Write(".");
+                System.Threading.Thread.Sleep(1000); 
+            }
+            Console.WriteLine("\nPayment Successful!\n");
+            Console.WriteLine("Thank you for shopping with us.");
+            Console.WriteLine("Press any key to return to the main menu...");
+            Console.ReadKey();
         }
     }
 }
