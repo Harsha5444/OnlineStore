@@ -115,12 +115,12 @@ namespace OnlineStore.BLL
             return (totalcost, orderDate, orderDetails);
         }
 
-        public List<User> ConvertDataTableToUserList(DataTable dataTable)
+        public List<Models> ConvertDataTableToUserList(DataTable dataTable)
         {
-            var userList = new List<User>();
+            var userList = new List<Models>();
             foreach (DataRow row in dataTable.Rows)
             {
-                var user = new User
+                var user = new Models
                 {
                     UserId = Convert.ToInt32(row["UserId"]),
                     FullName = Convert.ToString(row["FullName"]),
@@ -164,13 +164,13 @@ namespace OnlineStore.BLL
             }
             return orderList;
         }
-        public List<User> GetUsers()
+        public List<Models> GetUsers()
         {
             if (ds.Tables["Users"] != null)
             {
                 return ConvertDataTableToUserList(ds.Tables["Users"]);
             }
-            return new List<User>();
+            return new List<Models>();
         }
         public List<Product> GetProducts()
         {

@@ -53,7 +53,7 @@ namespace OnlineStore.UI
                 /*----------------------------Register-------------------------*/
                 else if (choice == "2")
                 {
-                    List<User> users = BLL.GetUsers();
+                    List<Models> users = BLL.GetUsers();
                     Console.Clear();
                     Console.WriteLine("********** Register **********");
                     Console.Write("Enter Username: ");
