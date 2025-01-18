@@ -53,7 +53,7 @@ namespace OnlineStore.UI
                 /*----------------------------Register-------------------------*/
                 else if (choice == "2")
                 {
-                    List<Models> users = BLL.GetUsers();
+                    List<User> users = BLL.GetUsers();
                     Console.Clear();
                     Console.WriteLine("********** Register **********");
                     Console.Write("Enter Username: ");
@@ -68,7 +68,7 @@ namespace OnlineStore.UI
                     }
                     if (users.Any(u => u.Username == username))
                     {
-                        Console.Clear() ;
+                        Console.Clear();
                         Console.WriteLine($"A user with the username '{username}' already exists.\n");
                         Console.WriteLine("Press any key to continue...");
                         Console.ReadKey();
@@ -85,7 +85,7 @@ namespace OnlineStore.UI
                         Console.Clear();
                         Console.WriteLine($"User {username}, registered successfully.\n");
                         Session.Username = username;
-                        UI.Menu(BLL); 
+                        UI.Menu(BLL);
                     }
                     else
                     {
@@ -222,10 +222,10 @@ namespace OnlineStore.UI
             Console.WriteLine("Redirecting to the payment gateway...");
             System.Threading.Thread.Sleep(3000); // Wait for 3 seconds
             Console.WriteLine("Processing payment...");
-            for (int i = 0; i < 5; i++) 
+            for (int i = 0; i < 5; i++)
             {
                 Console.Write(".");
-                System.Threading.Thread.Sleep(1000); 
+                System.Threading.Thread.Sleep(1000);
             }
             Console.WriteLine("\nPayment Successful!\n");
             Console.WriteLine("Thank you for shopping with us.");
