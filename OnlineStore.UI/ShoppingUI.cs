@@ -12,67 +12,92 @@ namespace OnlineStore.UI
         {
             ShoppingUI UI = new ShoppingUI();
             ShoppingBLL BLL = new ShoppingBLL();
-            Console.WriteLine("Welcome to Online Store!");
-            Console.WriteLine("1. Login");
-            Console.WriteLine("2. Register");
-            Console.Write("Please choose an option: ");
-            string choice = Console.ReadLine();
 
-            /*----------------------------Login-------------------------*/
-            if (choice == "1")
+            while (true)
             {
-                Console.Write("Enter Username: ");
-                string username = Console.ReadLine();
-                Console.Write("Enter Password: ");
-                string password = Console.ReadLine();
-                if (BLL.LoginVerify(username, password))
+                Console.Clear();
+                Console.WriteLine("Welcome to Online Store!");
+                Console.WriteLine("1. Login");
+                Console.WriteLine("2. Register");
+                Console.Write("Please choose an option: ");
+                string choice = Console.ReadLine();
+
+                /*----------------------------Login-------------------------*/
+                if (choice == "1")
                 {
-                    Console.WriteLine($"Login Successful, Welcome '{username}'\n");
-                    Session.Username = username;
-                    UI.Menu(BLL);
+                    Console.Clear();
+                    Console.WriteLine("********** Login **********");
+                    Console.Write("Enter Username: ");
+                    string username = Console.ReadLine();
+                    Console.Write("Enter Password: ");
+                    string password = Console.ReadLine();
+                    if (BLL.LoginVerify(username, password))
+                    {
+                        Console.Clear();
+                        Console.WriteLine($"Login Successful, Welcome '{username}'\n");
+                        Session.Username = username;
+                        UI.Menu(BLL); // Navigate to menu
+                    }
+                    else
+                    {
+                        Console.WriteLine($"No credentials found for user '{username}'. Please check your username or password.");
+                        Console.WriteLine("Press any key to continue...");
+                        Console.ReadKey();
+                    }
+                }
+                /*----------------------------Register-------------------------*/
+                else if (choice == "2")
+                {
+                    List<User> users = BLL.GetUsers();
+                    Console.Clear();
+                    Console.WriteLine("********** Register **********");
+                    Console.Write("Enter Username: ");
+                    string username = Console.ReadLine();
+                    if (char.IsDigit(username[0]))
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Username should not start with a number.\n");
+                        Console.WriteLine("Press any key to continue...");
+                        Console.ReadKey();
+                        continue;
+                    }
+                    if (users.Any(u => u.Username == username))
+                    {
+                        Console.Clear() ;
+                        Console.WriteLine($"A user with the username '{username}' already exists.\n");
+                        Console.WriteLine("Press any key to continue...");
+                        Console.ReadKey();
+                        continue;
+                    }
+                    Console.Write("Enter Full Name: ");
+                    string fullName = Console.ReadLine();
+                    Console.Write("Enter Password: ");
+                    string password = Console.ReadLine();
+                    Console.Write("Enter Mobile Number: ");
+                    string mobileNumber = Console.ReadLine();
+                    if (BLL.RegisterUser(username, fullName, password, mobileNumber))
+                    {
+                        Console.Clear();
+                        Console.WriteLine($"User {username}, registered successfully.\n");
+                        Session.Username = username;
+                        UI.Menu(BLL); 
+                    }
+                    else
+                    {
+                        Console.WriteLine("Failed to register user.");
+                        Console.WriteLine("Press any key to continue...");
+                        Console.ReadKey();
+                    }
                 }
                 else
-                    Console.WriteLine($"No credentials found for user '{username}'. Please check your username or password.");
-            }
-
-            /*----------------------------Register-------------------------*/
-
-            else if (choice == "2")
-            {
-                List<User> users = BLL.GetUsers();
-                Console.Write("Enter Username: ");
-                string username = Console.ReadLine();
-                if (char.IsDigit(username[0]))
                 {
-                    Console.WriteLine("Username should not start with a number.");
-                    return;
+                    Console.WriteLine("Invalid option selected. Please try again.");
+                    Console.WriteLine("Press any key to continue...");
+                    Console.ReadKey();
                 }
-                if (users.Any(u => u.Username == username))
-                {
-                    Console.WriteLine($"A user with the username '{username}' already exists.");
-                    return;
-                }
-                Console.Write("Enter Full Name: ");
-                string fullName = Console.ReadLine();
-                Console.Write("Enter Password: ");
-                string password = Console.ReadLine();
-                Console.Write("Enter Mobile Number: ");
-                string mobileNumber = Console.ReadLine();
-                if (BLL.RegisterUser(username, fullName, password, mobileNumber))
-                {
-                    Console.WriteLine($"User {username}, registered successfully.");
-                    Session.Username = username;
-                    UI.Menu(BLL);
-                }
-                else
-                    Console.WriteLine("Failed to register user.");
             }
-            else
-            {
-                Console.WriteLine("Invalid option selected.");
-            }
-            Console.ReadKey();
         }
+
 
         /*----------------------------------Menu---------------------------------------*/
 
@@ -91,17 +116,19 @@ namespace OnlineStore.UI
             switch (choice)
             {
                 case "1":
+                    Console.Clear();
                     Display.DisplayList(BLL.GetProducts(), "Products");
                     goto start;
                 case "2":
                     AddToCart(BLL);
                     goto start;
                 case "3":
+                    Console.Clear();
                     Display.DisplayList(BLL.GetCart(), "Cart");
                     goto start;
                 case "4":
                     Checkout(BLL);
-                    break;
+                    goto start;
                 case "5":
                     return;
                 default:
@@ -112,6 +139,7 @@ namespace OnlineStore.UI
         }
         public void AddToCart(ShoppingBLL BLL)
         {
+            Console.Clear();
             Display.DisplayList(BLL.GetProducts(), "Products");
             Console.WriteLine("\n*** Add to Cart ***");
             Console.WriteLine("Enter the Product ID you want to add to your cart:");
@@ -122,6 +150,7 @@ namespace OnlineStore.UI
                 {
                     if (BLL.AddToCart(productId, quantity, Session.Username))
                     {
+                        Console.Clear();
                         Console.WriteLine("Product added to cart successfully!\n");
                     }
                     else
@@ -143,7 +172,8 @@ namespace OnlineStore.UI
         {
             if (BLL.GetCart() == null || !BLL.GetCart().Any())
             {
-                Console.WriteLine("Your cart is empty. Cannot proceed with checkout.");
+                Console.Clear();
+                Console.WriteLine("Your cart is empty. Cannot proceed with checkout.\n");
                 return;
             }
             var (totalcost, orderDate, orderDetails) = BLL.Checkout(Session.Username);
