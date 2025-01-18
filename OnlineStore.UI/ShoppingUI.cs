@@ -6,6 +6,10 @@ using System.Linq;
 
 namespace OnlineStore.UI
 {
+    public class Session
+    {
+        public static string Username { get; set; }
+    }
     public class ShoppingUI
     {
         static void Main(string[] args)

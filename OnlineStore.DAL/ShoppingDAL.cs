@@ -7,7 +7,7 @@ namespace OnlineStore.DAL
 {
     public class ShoppingDAL
     {
-
+        /*-------------------------------Get all data-------------------------------*/
         public DataSet GetDataSet()
         {
             var ds = new DataSet("DataBase");
@@ -36,6 +36,9 @@ namespace OnlineStore.DAL
             }
             return ds;
         }
+
+        /*-------------------------------Regiter new user-------------------------------*/
+
         public bool AddNewUser(DataSet ds)
         {
             DataTable usersTable = ds.Tables["Users"];
@@ -57,6 +60,9 @@ namespace OnlineStore.DAL
                 }
             }
         }
+
+        /*-------------------------------Update db after checkout-------------------------------*/
+
         public void UpdateDB(DataSet ds)
         {
             try
