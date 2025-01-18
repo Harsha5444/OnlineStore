@@ -3,6 +3,7 @@ using OnlineStore.BLL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace OnlineStore.UI
 {
@@ -142,6 +143,9 @@ namespace OnlineStore.UI
                     break;
             }
         }
+
+        /*-------------------------------Add to cart-------------------------------*/
+
         public void AddToCart(ShoppingBLL BLL)
         {
             Console.Clear();
@@ -174,6 +178,9 @@ namespace OnlineStore.UI
                 Console.WriteLine("Invalid product ID. Please enter a valid number.\n");
             }
         }
+
+        /*-------------------------------checkout-------------------------------*/
+
         public void Checkout(ShoppingBLL BLL)
         {
             if (BLL.GetCart() == null || !BLL.GetCart().Any())
@@ -185,7 +192,7 @@ namespace OnlineStore.UI
             var (totalcost, orderDate, orderDetails) = BLL.Checkout(Session.Username);
             if (orderDetails != null)
             {
-                DisplayPaymentGateway();
+                PaymentGateway();
                 Console.Clear();
                 Console.WriteLine("********** Order Confirmation **********");
                 Console.WriteLine($"Order placed successfully by {Session.Username}.");
@@ -196,7 +203,10 @@ namespace OnlineStore.UI
                 Console.ReadKey();
             }
         }
-        public void DisplayPaymentGateway()
+
+        /*-------------------------------PaymentGateway-------------------------------*/
+
+        public void PaymentGateway()
         {
             Console.Clear();
             Console.WriteLine("********** Payment Methods **********");
@@ -221,6 +231,39 @@ namespace OnlineStore.UI
             Console.WriteLine("Thank you for shopping with us.");
             Console.WriteLine("Press any key to return to the main menu...");
             Console.ReadKey();
+        }
+    }
+    /*-------------------------------To display any List-------------------------------*/
+    class Display
+    {
+        public static void DisplayList<T>(List<T> list, string tableName)
+        {
+            Console.Clear();
+            if (list == null || list.Count == 0)
+            {
+                Console.WriteLine($"No data available in {tableName}.\n");
+                return;
+            }
+            Console.WriteLine($"--- {tableName.ToUpper()} ---");
+            PropertyInfo[] properties = typeof(T).GetProperties();
+            Console.WriteLine(new string('-', 20 * properties.Length));
+            foreach (var prop in properties)
+            {
+                Console.Write(prop.Name.PadRight(20));
+            }
+            Console.WriteLine();
+            Console.WriteLine(new string('-', 20 * properties.Length));
+            foreach (var item in list)
+            {
+                foreach (var prop in properties)
+                {
+                    var value = prop.GetValue(item);
+                    Console.Write(value.ToString().PadRight(20));
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine(new string('-', 20 * properties.Length));
+            Console.WriteLine();
         }
     }
 }
