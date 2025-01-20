@@ -41,7 +41,7 @@ namespace OnlineStore.UI
                         Console.Clear();
                         Console.WriteLine($"Login Successful, Welcome '{username}'\n");
                         Session.Username = username;
-                        UI.Menu(BLL); // Navigate to menu
+                        UI.Menu(BLL); 
                     }
                     else
                     {
