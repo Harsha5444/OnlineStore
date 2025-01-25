@@ -115,6 +115,8 @@ namespace OnlineStore.BLL
             return (totalcost, orderDate, orderDetails);
         }
 
+
+        /*--------------------------All tables convert to lists for easier linq------------------------------------*/
         public List<User> ConvertDataTableToUserList(DataTable dataTable)
         {
             var userList = new List<User>();
@@ -164,6 +166,7 @@ namespace OnlineStore.BLL
             }
             return orderList;
         }
+
         public List<User> GetUsers()
         {
             if (ds.Tables["Users"] != null)
